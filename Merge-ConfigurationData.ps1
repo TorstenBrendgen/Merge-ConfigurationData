@@ -1,28 +1,17 @@
 ﻿function Merge-ConfigurationData {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$true,ParameterSetName="Data")]
+        [Parameter(Mandatory=$true)]
         [System.Collections.Hashtable]
         $Template,
-        [Parameter(Mandatory=$true,ParameterSetName="Data")]
+        [Parameter(Mandatory=$true)]
         [System.Collections.Hashtable]
         $Deployment,
-        [Parameter(Mandatory=$true,ParameterSetName="FilePath")]
-        [System.String]
-        $TemplateFilePath,
-        [Parameter(Mandatory=$true,ParameterSetName="FilePath")]
-        [System.String]
-        $DeploymentFilePath,
         [Parameter(Mandatory=$false)]        
         [System.Collections.Hashtable]
         $Output
     )
-
-    if($PSCmdlet.ParameterSetName -eq "FilePath"){
-        $Template = Import-PowerShellDataFile -Path $TemplateFilePath
-        $Deployment = Import-PowerShellDataFile -Path $DeploymentFilePath
-    }
-    
+   
     if($Output -eq $null){
         $Output = $Deployment
     }
