@@ -19,7 +19,7 @@
     foreach($Property in $Template.GetEnumerator()){
         if($Property.Value -is [System.Collections.Hashtable]){
             Write-Verbose "Key [$($Property.Name)] is a Hashtable"
-            if($Deployment.$($Property.Name) -ne $null){
+            if($null -ne $Deployment.$($Property.Name)){
                 Write-Verbose "Key [$($Property.Name)] is present in Deployment Data"
                 $Output.($Property.Name) = Merge-ConfigurationData -Template $Template.$($Property.Name) -Deployment $Deployment.$($Property.Name) -Output $Output.$($Property.Name)
             }else{
@@ -30,7 +30,7 @@
             Write-Verbose "$($Property.Name) is ein Array"
             Write-Verbose "Total Items in Template Array [$($Property.Value.Count)]"
             Write-Verbose "Total Items in Deployment Array [$($Deployment.$($Property.Name).Count)]"
-            if($Deployment.$($Property.Name) -ne $null){
+            if($null -ne $Deployment.$($Property.Name)){
                 Write-Verbose "Array is defined in Deployment"
                 for($i=0;$i -lt $Property.Value.Count; $i++){ 
                     
@@ -48,7 +48,7 @@
             }
         }else{
             Write-Verbose "$($Property.Name) is a String or Integer Value"
-            if($Deployment.$($Property.Name) -eq $null){
+            if($null -eq $Deployment.$($Property.Name)){
 
                 $Output.Add($Property.Name,$Template.($Property.Name))
 
