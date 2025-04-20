@@ -26,6 +26,15 @@
                 Write-Verbose "Key [$($Property.Name)] is not present in Deployment Data"
                 $Output.Add($($Property.Name),$Template.$($Property.Name))
             }
+        }elseif($Property.Value -is [System.Collections.Specialized.OrderedDictionary]){
+            Write-Verbose "Key [$($Property.Name)] is a Ordered Dictionary"
+            if($null -ne $Deployment.$($Property.Name)){
+                Write-Verbose "Key [$($Property.Name)] is present in Deployment Data"
+                $Output.($Property.Name) = Merge-ConfigurationData -Template $Template.$($Property.Name) -Deployment $Deployment.$($Property.Name) -Output $Output.$($Property.Name)
+            }else{
+                Write-Verbose "Key [$($Property.Name)] is not present in Deployment Data"
+                $Output.Add($($Property.Name),$Template.$($Property.Name))
+            }
         }elseif($Property.Value -is [System.Array]){
             Write-Verbose "$($Property.Name) is ein Array"
             Write-Verbose "Total Items in Template Array [$($Property.Value.Count)]"
